@@ -43,8 +43,16 @@ flowchart LR
 
 ## 安装
 
+克隆仓库：
+
 ```powershell
-cd D:\codex\agent
+git clone https://github.com/Elaina168/course-research-agent.git
+cd course-research-agent
+```
+
+安装依赖：
+
+```powershell
 python -m pip install --user -r requirements.txt
 ```
 
@@ -59,14 +67,19 @@ pip install -r requirements.txt
 ## 启动 Web 前端
 
 ```powershell
-cd D:\codex\agent
-python -m study_agent.web_app --port 8899
+python -m study_agent.web_app
 ```
 
 打开：
 
 ```text
-http://127.0.0.1:8899/
+http://127.0.0.1:8000/
+```
+
+如果想指定端口：
+
+```powershell
+python -m study_agent.web_app --port 8899
 ```
 
 ## 页面使用方式
@@ -78,10 +91,22 @@ http://127.0.0.1:8899/
 1. 填写 `DeepSeek API Key`。
 2. `API Base URL` 保持 `https://api.deepseek.com`。
 3. `模型` 保持 `deepseek-chat`。
-4. 填写本地 PDF 路径，例如：
+4. 填写你自己电脑上的本地 PDF 路径，例如：
 
 ```text
-C:\Users\zytx\Downloads\Chap 9-Normalization(4).pdf
+C:\Users\你的用户名\Downloads\course-reading.pdf
+```
+
+Windows 路径示例：
+
+```text
+D:\course\week1.pdf
+```
+
+macOS / Linux 路径示例：
+
+```text
+/Users/your-name/Downloads/course-reading.pdf
 ```
 
 ### 询问板块
@@ -105,18 +130,20 @@ C:\Users\zytx\Downloads\Chap 9-Normalization(4).pdf
 - 如果“保存目录”留空，只填写文件名，文件会保存到系统临时目录。
 - 如果填写了保存目录，系统会严格写入该目录。
 - 如果当前进程没有写入权限，会直接报错，不会偷偷改存到临时目录。
-- 当前已验证可写目录：
+
+Windows 保存目录示例：
 
 ```text
-D:\codex\agent
-D:\codex\agent\outputs
+D:\course-agent-outputs
 ```
 
-推荐保存目录：
+macOS / Linux 保存目录示例：
 
 ```text
-D:\codex\agent\outputs
+/Users/your-name/course-agent-outputs
 ```
+
+如果保存失败，请确认该目录存在，且当前用户有写入权限。
 
 ## 命令行模式
 
@@ -146,8 +173,7 @@ OPENAI_BASE_URL=https://api.deepseek.com
 ## 注意事项
 
 - API Key 不会写入文件，但不要把真实 Key 放进截图或报告。
-- PDF 必须是本机可访问路径。
+- PDF 必须是使用者本机可访问路径，不能直接使用别人电脑上的路径。
 - 扫描版 PDF 如果没有 OCR 文本层，`pypdf` 可能无法提取有效内容。
 - 如果 DeepSeek 请求失败，优先检查 API Key、余额、代理和网络。
 - 如果导出失败，优先检查保存目录权限。
-
