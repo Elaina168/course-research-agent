@@ -1,6 +1,6 @@
 # 课程资料学习研究助手 Agent
 
-这是一个用于 Experiment 2: Bring Your Own Agent（BYOA）的单一用途 AI Agent。它内置课程学习助手系统 Prompt，并通过显式 Skill 编排和 OpenAI-compatible API 调用，帮助学生基于课程 PDF 完成学习总结、资料问答、测验题生成和 Markdown 导出。
+这是一个面向课程 PDF 学习场景的单一用途 AI Agent。它内置课程学习助手系统 Prompt，并通过显式 Skill 编排和 DeepSeek 的 OpenAI-compatible Chat Completions 接口，帮助学生基于课程 PDF 完成学习总结、资料问答、测验题生成和 Markdown 导出。
 
 当前默认使用 DeepSeek API，模型为 `deepseek-chat`。
 
@@ -51,7 +51,6 @@ flowchart LR
 - `scripts/run_web_ui_hidden.py`：Windows 无窗口后台启动器。
 - `scripts/restart_web_ui_hidden_task.ps1`：Windows 任务计划无窗口重启脚本。
 - `scripts/stop_web_ui_task.ps1`：Windows 停止后台 Web UI 的脚本。
-- `REPORT.md`：实验报告草稿。
 
 ## 安装
 
@@ -180,18 +179,9 @@ OPENAI_BASE_URL=https://api.deepseek.com
 
 Web 前端不要求创建 `.env`，因为 API Key 会在页面中填写。
 
-## 实验截图建议
-
-报告建议包含 3～4 张截图：
-
-1. Web 前端页面：展示通用设置、询问板块和测试板块。
-2. 询问结果：展示基于 PDF 生成的学习总结或问题回答。
-3. 测试结果：展示测验题、参考答案和解析。
-4. Markdown 导出：展示导出成功提示和生成的 `.md` 文件内容。
-
 ## 注意事项
 
-- API Key 不会写入文件，但不要把真实 Key 放进截图或报告。
+- API Key 不会写入文件，但不要把真实 Key 放进截图或公开材料。
 - PDF 必须是使用者本机可访问路径，不能直接使用别人电脑上的路径。
 - 扫描版 PDF 如果没有 OCR 文本层，`pypdf` 可能无法提取有效内容。
 - 如果 DeepSeek 请求失败，优先检查 API Key、余额、代理和网络。
