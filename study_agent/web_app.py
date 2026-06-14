@@ -35,58 +35,82 @@ INDEX_HTML = """<!doctype html>
   <title>课程资料学习研究助手</title>
   <style>
     :root {
-      --bg: #f5f7fb;
-      --panel: #ffffff;
-      --text: #172033;
-      --muted: #667085;
-      --border: #d7ddea;
-      --primary: #2563eb;
-      --primary-dark: #1e40af;
-      --danger: #b42318;
-      --ok: #047857;
-      --code: #101828;
+      --bg: #f5f5f7;
+      --panel: rgba(255, 255, 255, 0.78);
+      --panel-strong: rgba(255, 255, 255, 0.92);
+      --text: #1d1d1f;
+      --muted: #6e6e73;
+      --border: rgba(0, 0, 0, 0.10);
+      --primary: #0071e3;
+      --primary-dark: #005bb5;
+      --danger: #d70015;
+      --ok: #248a3d;
+      --code: #111827;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.10);
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #eef4ff 0%, var(--bg) 42%, #f8fafc 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(0, 113, 227, 0.14), transparent 30%),
+        radial-gradient(circle at 82% 0%, rgba(175, 82, 222, 0.12), transparent 28%),
+        linear-gradient(180deg, #fbfbfd 0%, var(--bg) 100%);
       color: var(--text);
+      -webkit-font-smoothing: antialiased;
     }
     main {
-      max-width: 1280px;
+      max-width: 1220px;
       margin: 0 auto;
-      padding: 32px 20px 48px;
+      padding: 44px 22px 56px;
     }
-    header { margin-bottom: 24px; }
+    header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
     h1 {
-      margin: 0 0 8px;
-      font-size: 32px;
-      letter-spacing: -0.03em;
+      margin: 0 0 10px;
+      font-size: clamp(34px, 5vw, 56px);
+      line-height: 1.05;
+      letter-spacing: -0.055em;
+      font-weight: 760;
     }
     h2 {
-      font-size: 20px;
-      margin: 0 0 14px;
+      font-size: 21px;
+      margin: 0 0 12px;
+      letter-spacing: -0.02em;
     }
-    p { line-height: 1.7; }
+    p { line-height: 1.65; }
     .subtitle {
-      margin: 0;
+      margin: 0 auto;
       color: var(--muted);
-      max-width: 880px;
+      max-width: 820px;
+      font-size: 17px;
     }
     .card {
-      background: rgba(255, 255, 255, 0.94);
+      background: var(--panel);
       border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: 0 18px 55px rgba(16, 24, 40, 0.08);
-      padding: 20px;
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+      backdrop-filter: blur(24px) saturate(1.8);
+      -webkit-backdrop-filter: blur(24px) saturate(1.8);
     }
     .settings-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
+      grid-template-columns: minmax(260px, 0.58fr) minmax(320px, 1fr);
+      gap: 16px;
+      align-items: start;
     }
-    .settings-grid .wide { grid-column: 1 / -1; }
+    .settings-grid .wide { grid-column: auto; }
+    .system-note {
+      margin-top: 14px;
+      padding: 13px 15px;
+      border-radius: 18px;
+      background: rgba(0, 113, 227, 0.08);
+      color: var(--muted);
+      font-size: 14px;
+    }
     .workspace {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -104,27 +128,30 @@ INDEX_HTML = """<!doctype html>
       display: block;
       font-weight: 650;
       margin: 14px 0 8px;
+      letter-spacing: -0.01em;
     }
     input, textarea {
       width: 100%;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 13px;
+      border-radius: 16px;
+      padding: 13px 14px;
       font: inherit;
-      background: #fff;
+      background: var(--panel-strong);
       color: var(--text);
       outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
     }
     textarea {
       min-height: 132px;
       resize: vertical;
     }
     input:focus, textarea:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      border-color: rgba(0, 113, 227, 0.75);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.14);
     }
     .hint {
-      margin-top: 6px;
+      margin-top: 7px;
       color: var(--muted);
       font-size: 13px;
     }
@@ -137,20 +164,30 @@ INDEX_HTML = """<!doctype html>
     button {
       border: 0;
       border-radius: 999px;
-      padding: 11px 16px;
+      padding: 11px 18px;
       font: inherit;
       font-weight: 700;
       cursor: pointer;
       background: var(--primary);
       color: white;
+      box-shadow: 0 8px 22px rgba(0, 113, 227, 0.28);
+      transition: transform 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+    }
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(0, 113, 227, 0.34);
     }
     button.secondary {
-      background: #eef2ff;
+      background: rgba(0, 113, 227, 0.10);
       color: var(--primary-dark);
+      box-shadow: none;
     }
+    button.secondary:hover { background: rgba(0, 113, 227, 0.15); }
     button:disabled {
       opacity: 0.65;
       cursor: wait;
+      transform: none;
     }
     .status {
       min-height: 24px;
@@ -164,21 +201,23 @@ INDEX_HTML = """<!doctype html>
       min-height: 360px;
       white-space: pre-wrap;
       overflow-wrap: anywhere;
-      background: #0b1220;
-      color: #e6edf7;
-      border-radius: 16px;
-      padding: 18px;
+      background: rgba(18, 18, 18, 0.94);
+      color: #f5f5f7;
+      border-radius: 22px;
+      padding: 19px;
       line-height: 1.72;
       font-size: 15px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
     }
     .section-note {
       color: var(--muted);
-      margin-top: -6px;
+      margin-top: -4px;
       margin-bottom: 12px;
     }
     @media (max-width: 980px) {
       .settings-grid, .workspace, .export-grid { grid-template-columns: 1fr; }
       .settings-grid .wide { grid-column: auto; }
+      main { padding: 28px 14px 42px; }
     }
   </style>
 </head>
@@ -186,7 +225,7 @@ INDEX_HTML = """<!doctype html>
   <main>
     <header>
       <h1>课程资料学习研究助手</h1>
-      <p class="subtitle">顶部填写通用 API 和 PDF 设置；下方“询问”和“测试”两个板块互不影响，方便反复切换。</p>
+      <p class="subtitle">填写 API Key 和本地 PDF 路径；下方“询问”和“测试”两个板块互不影响，方便反复切换。</p>
     </header>
 
     <section class="card">
@@ -198,21 +237,12 @@ INDEX_HTML = """<!doctype html>
           <div class="hint">只随本次请求发送给本地后端，不会写入文件。</div>
         </div>
         <div>
-          <label for="model">模型</label>
-          <input id="model" value="deepseek-chat" />
-          <div class="hint">DeepSeek 常用模型是 `deepseek-chat`。</div>
-        </div>
-        <div class="wide">
-          <label for="baseUrl">API Base URL</label>
-          <input id="baseUrl" value="https://api.deepseek.com" />
-          <div class="hint">DeepSeek 默认使用 `https://api.deepseek.com`。</div>
-        </div>
-        <div class="wide">
           <label for="pdfPath">本地 PDF 路径</label>
-          <input id="pdfPath" placeholder="例如：D:\\course\\week1.pdf" />
+          <input id="pdfPath" placeholder="例如：C:\\path\\to\\course-reading.pdf" />
           <div class="hint">路径必须是运行 Agent 的这台电脑能访问的 PDF 文件路径。</div>
         </div>
       </div>
+      <div class="system-note">系统默认使用 DeepSeek：模型 `deepseek-chat`，Base URL `https://api.deepseek.com`。</div>
     </section>
 
     <section class="workspace">
@@ -229,7 +259,7 @@ INDEX_HTML = """<!doctype html>
         <div class="export-grid">
           <div>
             <label for="askOutputDir">保存目录</label>
-            <input id="askOutputDir" value="" placeholder="留空则保存到系统临时目录，例如：D:\\course\\outputs" />
+            <input id="askOutputDir" value="" placeholder="留空则保存到系统临时目录，例如：C:\\path\\to\\outputs" />
           </div>
           <div>
             <label for="askOutputName">文件名</label>
@@ -257,7 +287,7 @@ INDEX_HTML = """<!doctype html>
         <div class="export-grid">
           <div>
             <label for="quizOutputDir">保存目录</label>
-            <input id="quizOutputDir" value="" placeholder="留空则保存到系统临时目录，例如：D:\\course\\outputs" />
+            <input id="quizOutputDir" value="" placeholder="留空则保存到系统临时目录，例如：C:\\path\\to\\outputs" />
           </div>
           <div>
             <label for="quizOutputName">文件名</label>
@@ -297,8 +327,8 @@ INDEX_HTML = """<!doctype html>
     function sharedConfig() {
       return {
         api_key: $("apiKey").value.trim(),
-        base_url: $("baseUrl").value.trim(),
-        model: $("model").value.trim(),
+        base_url: "https://api.deepseek.com",
+        model: "deepseek-chat",
         pdf_path: $("pdfPath").value.trim()
       };
     }
@@ -315,27 +345,27 @@ INDEX_HTML = """<!doctype html>
       return true;
     }
 
-    function buildAskQuestion(config) {
+    function buildAskPayload(config) {
       const question = $("askQuestion").value.trim();
-      return [
-        `请读取这个 PDF：${config.pdf_path}`,
-        "任务：请回答用户对 PDF 的询问。回答应基于 PDF 内容，结构清晰，适合复习使用。",
-        `用户问题：${question || "请总结这份 PDF 的核心观点、重要概念，并指出容易混淆的地方。"}`
-      ].join("\\n\\n");
+      return {
+        task_type: "course_qa",
+        pdf_path: config.pdf_path,
+        question: question || "请总结这份 PDF 的核心观点、重要概念，并指出容易混淆的地方。"
+      };
     }
 
-    function buildQuizQuestion(config) {
+    function buildQuizPayload(config) {
       const quizCount = $("quizCount").value.trim() || "8";
       const requirement = $("quizRequirement").value.trim();
-      return [
-        `请读取这个 PDF：${config.pdf_path}`,
-        `任务：请根据 PDF 内容生成 ${quizCount} 道测验题，用来检测初步复习成果。`,
-        "每道题必须包含：题目、参考答案、简短解析。",
-        requirement ? `用户测试要求：${requirement}` : ""
-      ].filter(Boolean).join("\\n\\n");
+      return {
+        task_type: "quiz_generation",
+        pdf_path: config.pdf_path,
+        quiz_count: quizCount,
+        quiz_requirement: requirement
+      };
     }
 
-    async function runAgent({ buttonId, statusId, outputId, questionBuilder }) {
+    async function runAgent({ buttonId, statusId, outputId, payloadBuilder }) {
       const button = $(buttonId);
       const config = sharedConfig();
       if (!validateSharedConfig(config, statusId)) return;
@@ -348,7 +378,7 @@ INDEX_HTML = """<!doctype html>
           api_key: config.api_key,
           base_url: config.base_url,
           model: config.model,
-          question: questionBuilder(config)
+          ...payloadBuilder(config)
         });
         $(outputId).textContent = data.answer;
         setStatus(statusId, "完成。", "ok");
@@ -401,14 +431,14 @@ INDEX_HTML = """<!doctype html>
       buttonId: "askBtn",
       statusId: "askStatus",
       outputId: "askOutput",
-      questionBuilder: buildAskQuestion
+      payloadBuilder: buildAskPayload
     }));
 
     $("quizBtn").addEventListener("click", () => runAgent({
       buttonId: "quizBtn",
       statusId: "quizStatus",
       outputId: "quizOutput",
-      questionBuilder: buildQuizQuestion
+      payloadBuilder: buildQuizPayload
     }));
 
     $("saveAskBtn").addEventListener("click", () => saveMarkdown({
@@ -468,16 +498,10 @@ class StudyAgentRequestHandler(BaseHTTPRequestHandler):
         api_key = str(payload.get("api_key", "")).strip()
         base_url = str(payload.get("base_url", DEFAULT_BASE_URL)).strip() or DEFAULT_BASE_URL
         model = str(payload.get("model", DEFAULT_MODEL)).strip() or DEFAULT_MODEL
-        question = str(payload.get("question", "")).strip()
+        task_type = str(payload.get("task_type", "")).strip()
         if not api_key:
             self._send_json(
                 {"ok": False, "error": "API Key is required."},
-                status=HTTPStatus.BAD_REQUEST,
-            )
-            return
-        if not question:
-            self._send_json(
-                {"ok": False, "error": "Question is required."},
                 status=HTTPStatus.BAD_REQUEST,
             )
             return
@@ -493,6 +517,81 @@ class StudyAgentRequestHandler(BaseHTTPRequestHandler):
             llm_client=llm_client,
             tool_registry=build_default_registry(),
         )
+
+        if task_type == "course_qa":
+            pdf_path = str(payload.get("pdf_path", "")).strip()
+            question = str(payload.get("question", "")).strip()
+            if not pdf_path:
+                self._send_json(
+                    {"ok": False, "error": "PDF path is required."},
+                    status=HTTPStatus.BAD_REQUEST,
+                )
+                return
+            if not question:
+                self._send_json(
+                    {"ok": False, "error": "Question is required."},
+                    status=HTTPStatus.BAD_REQUEST,
+                )
+                return
+            result = agent.run_course_qa(pdf_path=pdf_path, question=question)
+            self._send_json(
+                {
+                    "ok": True,
+                    "answer": result.content,
+                    "skill": result.skill,
+                    "context_source": result.context_source,
+                    "tool_trace": result.tool_trace,
+                }
+            )
+            return
+
+        if task_type == "quiz_generation":
+            pdf_path = str(payload.get("pdf_path", "")).strip()
+            raw_quiz_count = str(payload.get("quiz_count", "8")).strip() or "8"
+            requirement = str(payload.get("quiz_requirement", "")).strip()
+            if not pdf_path:
+                self._send_json(
+                    {"ok": False, "error": "PDF path is required."},
+                    status=HTTPStatus.BAD_REQUEST,
+                )
+                return
+            try:
+                quiz_count = int(raw_quiz_count)
+            except ValueError:
+                self._send_json(
+                    {"ok": False, "error": "Quiz count must be an integer."},
+                    status=HTTPStatus.BAD_REQUEST,
+                )
+                return
+            if quiz_count < 1 or quiz_count > 50:
+                self._send_json(
+                    {"ok": False, "error": "Quiz count must be between 1 and 50."},
+                    status=HTTPStatus.BAD_REQUEST,
+                )
+                return
+            result = agent.run_quiz_generation(
+                pdf_path=pdf_path,
+                quiz_count=quiz_count,
+                requirement=requirement,
+            )
+            self._send_json(
+                {
+                    "ok": True,
+                    "answer": result.content,
+                    "skill": result.skill,
+                    "context_source": result.context_source,
+                    "tool_trace": result.tool_trace,
+                }
+            )
+            return
+
+        question = str(payload.get("question", "")).strip()
+        if not question:
+            self._send_json(
+                {"ok": False, "error": "Question is required."},
+                status=HTTPStatus.BAD_REQUEST,
+            )
+            return
         answer = agent.run(question)
         self._send_json({"ok": True, "answer": answer})
 

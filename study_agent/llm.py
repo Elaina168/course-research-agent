@@ -20,10 +20,16 @@ class OpenAIChatClient:
         self.model = settings.model
         self.client = OpenAI(api_key=settings.api_key, base_url=settings.base_url)
 
-    def create_completion(self, messages: list[dict[str, Any]], tools: list[dict[str, Any]]) -> Any:
-        return self.client.chat.completions.create(
-            model=self.model,
-            messages=messages,
-            tools=tools,
-            tool_choice="auto",
-        )
+    def create_completion(
+        self,
+        messages: list[dict[str, Any]],
+        tools: list[dict[str, Any]] | None = None,
+    ) -> Any:
+        request: dict[str, Any] = {
+            "model": self.model,
+            "messages": messages,
+        }
+        if tools:
+            request["tools"] = tools
+            request["tool_choice"] = "auto"
+        return self.client.chat.completions.create(**request)

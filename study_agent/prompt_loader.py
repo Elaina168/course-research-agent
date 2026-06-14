@@ -4,6 +4,9 @@ from importlib.resources import files
 
 
 def load_system_prompt() -> str:
-    prompt_file = files("study_agent.prompts").joinpath("system_prompt.md")
-    return prompt_file.read_text(encoding="utf-8")
+    return load_prompt("system_prompt.md")
 
+
+def load_prompt(filename: str) -> str:
+    prompt_file = files("study_agent.prompts").joinpath(filename)
+    return prompt_file.read_text(encoding="utf-8")
