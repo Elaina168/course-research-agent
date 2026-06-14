@@ -115,8 +115,13 @@ INDEX_HTML = """<!doctype html>
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
-      align-items: start;
+      align-items: stretch;
       margin-top: 18px;
+    }
+    .workspace > .card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
     }
     .export-grid {
       display: grid;
@@ -198,6 +203,7 @@ INDEX_HTML = """<!doctype html>
     .status.error { color: var(--danger); }
     .status.ok { color: var(--ok); }
     .output {
+      flex: 1;
       min-height: 360px;
       white-space: pre-wrap;
       overflow-wrap: anywhere;
